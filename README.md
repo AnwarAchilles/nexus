@@ -54,9 +54,8 @@ Nexus\Engine::watch("/src/"); // use this if you want watch mode
 
 #### Step - 3
 
-There is already a watch mode for browsers by simply opening <your project>/nexus.php 
-
-After that open a browser and open your local development to enter watch mode, open the nexus nexus.php
+There is already a watch mode for browsers by simply opening <your project>/nexus.php,
+to use is open a browser and open your local development to enter watch mode, open the nexus.php
 
 You can also build and watch with the command line, like this.
 ```bash
