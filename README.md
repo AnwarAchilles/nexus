@@ -42,6 +42,9 @@ Nexus\Source::html("/src/index");
 Nexus\Source::css("/src/index");
 Nexus\Source::js("/src/index");
 
+// for multiple file
+// Nexus\Source::php( file1, file2 file3 );
+
 Nexus\Engine::build("/dist/index", "class");
 Nexus\Engine::watch("/src/");
 ```
