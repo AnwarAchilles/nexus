@@ -30,13 +30,15 @@ nexus.php file, and then enter the following code.
 
 ```php
 <?php
-// file: nexus.php
 
-require_once __DIR__."/autoload.php";
+// load nexus 
+require_once __DIR__."/nexus/autoload.php";
 
+// set environment base
 Nexus\Engine::$BASEDIR = __DIR__;
 Nexus\Engine::$BASEURL = "http://localhost/<project>";
 
+// set all source
 Nexus\Source::php("/src/index");
 Nexus\Source::html("/src/index");
 Nexus\Source::css("/src/index");
@@ -45,8 +47,9 @@ Nexus\Source::js("/src/index");
 // for multiple file
 // Nexus\Source::php( file1, file2 file3 );
 
-Nexus\Engine::build("/dist/index", "class");
-Nexus\Engine::watch("/src/");
+// set distribution file and setup
+Nexus\Engine::build("/dist/index", "class"); // 'class' | 'plate'
+Nexus\Engine::watch("/src/"); // use this if you want watch mode
 ```
 
 #### Step - 3
