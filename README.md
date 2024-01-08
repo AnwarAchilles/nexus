@@ -1,5 +1,5 @@
 
-# Nexus - PHP, HTML, CSS, JS to (SPA)
+# Nexus - Toolkit PHP to bundling All Source to SPA
 
 The concept is to wrap all HTML, CSS, JS, PHP into 1 PHP file only, very useful for the construction of simple 1 file tools without conflict.
 
