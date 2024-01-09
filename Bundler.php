@@ -47,7 +47,10 @@ class Bundler {
       '</script>',
     ],
     'html'=> [
+      '<!DOCTYPE>',
+      '<!DOCTYPE html>',
       '<html>',
+      '<html lang="en">',
       '</html>',
       '<head>',
       '</head>',
