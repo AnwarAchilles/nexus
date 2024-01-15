@@ -93,7 +93,7 @@ class Bundler {
    * @param string $type The classification type (default is 'plate').
    * @return void
    */
-  public static function classification( $type='plate' ) {    
+  public static function classification( $type='plate', $minify=false ) {    
     if ($type=='plate') {
       foreach (Source::$all as $language=>$source) {
         if (!isset(self::$all[$language])) {
@@ -109,6 +109,11 @@ class Bundler {
                 self::$all['html-body'] = self::$all['html-body'] . $data ."\n";
               }
             }else {
+              if (in_array($language, Minify::$avaliable)) {
+                if ($minify) {
+                  $data = Minify::$language(self::clean($language, Engine::decode($packet['data'])));
+                }
+              }
               self::$all[$language] = self::$all[$language] . $data ."\n";
             }
           }
@@ -131,6 +136,11 @@ class Bundler {
                 self::$all['html-body'] = self::$all['html-body'] . "\t\t\$bundle->body[] = '" . $data."';\n";
               }
             }else {
+              if (in_array($language, Minify::$avaliable)) {
+                if ($minify) {
+                  $data = Engine::encode(Minify::$language(self::clean($language, Engine::decode($packet['data']))));
+                }
+              }
               self::$all[$language] = self::$all[$language] . "\t\t\$bundle[] = '" . $data."';\n";
             }
           }

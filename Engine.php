@@ -34,7 +34,7 @@ class Engine {
    * @param string $watch The path to watch for changes (optional).
    * @return void
    */
-  public static function build( $file, $type='plate' ) {
+  public static function build( $file, $type='plate', $minify=false ) {
     self::$dist['url'] = self::$BASEURL.$file.'.php';
     self::$dist['dir'] = self::$BASEDIR.$file.'.php';
     self::$dist['src'] = $file.'.php';
@@ -48,12 +48,12 @@ class Engine {
       $cli = $_SERVER['argv'];
 
       if ($cli[1] == 'build') {
-        Bundler::classification($type);
+        Bundler::classification($type, $minify);
         file_put_contents(self::$dist['dir'], Bundler::render($type) );
       }
     // Handle non-cli execution...
     } else {
-      Bundler::classification($type);
+      Bundler::classification($type, $minify);
       file_put_contents(self::$dist['dir'], Bundler::render($type) );
     }
   }
