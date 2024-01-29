@@ -48,9 +48,4 @@ class Source {
     }
   }
 
-
-  public static function asset() {
-    dd('x');
-  }
-
 }
