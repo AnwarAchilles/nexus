@@ -25,6 +25,7 @@ class Bundler {
     'html-head'=> '',
     'css'=> '',
     'js'=> '',
+    'asset'=> '',
   ];
 
   /**
@@ -59,6 +60,7 @@ class Bundler {
       '<style>',
       '</style>',
     ],
+    'asset'=> [],
   ];
 
   /**
@@ -125,7 +127,7 @@ class Bundler {
         self::$all['hash-'.$language] = Engine::hash();
         self::$all['hash-app'] = Engine::hash();
         self::$all['hash-cryption'] = Engine::hash();
-
+        
         if (isset(Source::$all[$language])) {
           foreach (Source::$all[$language] as $packet) {
             $data = Engine::encode(self::clean($language, Engine::decode($packet['data'])));
@@ -135,6 +137,8 @@ class Bundler {
               }else {
                 self::$all['html-body'] = self::$all['html-body'] . "\t\t\$bundle->body[] = '" . $data."';\n";
               }
+            }else if (str_contains($packet['name'], 'asset')) {
+              self::$all[$language] = self::$all[$language] . "\t\t\$bundle['" . pathinfo($packet['name'])['filename'] . "'] = '" . $data."';\n";
             }else {
               if (in_array($language, Minify::$avaliable)) {
                 if ($minify) {
@@ -147,6 +151,7 @@ class Bundler {
         }
       }
     }
+    // dd(self::$all);
   }
 
   /**

@@ -24,6 +24,8 @@ class App@{{ HASH-APP }}
             $this->__install@{{ HASH-CRYPTION }}("HTML-".$base, $bundle );
         }
 
+        $this->__asset@{{ HASH-CRYPTION }}();
+
         eval("?>".$this->__cryption@{{ HASH-CRYPTION }}($this->template, FALSE )."<?php");
     }
 
@@ -76,6 +78,17 @@ class App@{{ HASH-APP }}
     }
 
     /* 
+     * BUNDLE CONTAINER ASSET: FILE MANAGER
+     * */
+    private function __bundle_asset@{{ HASH-ASSET }}()
+    {
+        $bundle = array();
+@{{ ASSET }}
+        
+        return $bundle;
+    }
+
+    /* 
      * METHOD CRYPTION
      * */
     private function __cryption@{{ HASH-CRYPTION }}( $data, $state )
@@ -100,6 +113,26 @@ class App@{{ HASH-APP }}
         $TEMPLATE = $this->__cryption@{{ HASH-CRYPTION }}($this->template, FALSE );
         $TEMPLATE = str_replace("@{{ ".strtoupper($prefix)." }}", $source, $TEMPLATE);
         $this->template = $this->__cryption@{{ HASH-CRYPTION }}($TEMPLATE, TRUE );
+    }
+
+    /* 
+     * METHOD ASSET DEPLOYER
+     * */
+    private function __asset@{{ HASH-CRYPTION }}()
+    {
+        foreach ($this->__bundle_asset@{{ HASH-ASSET }}() as $filename => $source ) {
+            if (file_exists(__DIR__.'/asset/')) {
+                if (file_exists(__DIR__.'/asset/'.$filename)) {
+                    file_put_contents(__DIR__.'/asset/'.$filename, $this->__cryption@{{ HASH-CRYPTION }}($source, FALSE));
+                }else {
+                    touch(__DIR__.'/asset/'.$filename);
+                    $this->__asset@{{ HASH-CRYPTION }}();
+                }
+            }else {
+                mkdir(__DIR__.'/asset/');
+                $this->__asset@{{ HASH-CRYPTION }}();
+            }
+        }
     }
 }
 
