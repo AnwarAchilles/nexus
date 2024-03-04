@@ -1,9 +1,5 @@
 <?php
 
-function dd($data) {
-  echo '<pre>'; print_r($data); die;
-}
-
 require_once '../autoload.php';
 
 Nexus\Engine::$BASEURL = '';
