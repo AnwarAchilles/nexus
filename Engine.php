@@ -63,11 +63,12 @@ class Engine {
       if ($cli[1] == 'build') {
         Bundler::classification($type, $minify);
         $delay = microtime(true);
+        $size = filesize(self::$dist['dir']);
         if (file_put_contents(self::$dist['dir'], Bundler::render($type) )) {
-          $done = (microtime(true) - $delay) * 1000;
-          echo '✔️ build : done in '.round($done, 2).'ms';
+          $done = round((microtime(true) - $delay) * 1000, 2);
+          echo "✔️ build $file.php : done in $done/ms | $size/kb\n";
         }else {
-          echo '❌ build : Failed due to some error on code';
+          echo "❌ build : Failed due to some error on code";
         }
       }
     // Handle non-cli execution...
@@ -106,11 +107,11 @@ class Engine {
         echo "Start Watching..\n";
         // Continuous loop for monitoring changes
         while (true) {
-          self::clearConsole();
           // Get the current modified time of the specified path
           $currentModifiedTime = self::isModified($path);
           // Check if the file has been modified since the last check
           if ($currentModifiedTime != $lastModifiedTime) {
+            echo "Rebuild ..\n";
             // Execute the build command
             $resp = shell_exec("php " . $cli[0] . " build");
             // Notify that the system has been rebuilt
