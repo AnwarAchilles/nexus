@@ -62,7 +62,13 @@ class Engine {
 
       if ($cli[1] == 'build') {
         Bundler::classification($type, $minify);
-        file_put_contents(self::$dist['dir'], Bundler::render($type) );
+        $delay = microtime(true);
+        if (file_put_contents(self::$dist['dir'], Bundler::render($type) )) {
+          $done = (microtime(true) - $delay) * 1000;
+          echo '✔️ build : done in '.round($done, 2).'ms';
+        }else {
+          echo '❌ build : Failed due to some error on code';
+        }
       }
     // Handle non-cli execution...
     } else {
@@ -89,17 +95,26 @@ class Engine {
         // Get the last modified time of the specified path
         $lastModifiedTime = self::isModified($path);
         // Notify that the system is now watching
-        echo "Nexus : watching..\n";
+        echo "
+███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗ - @anwarachilles
+████╗  ██║██╔════╝╚██╗██╔╝██║   ██║██╔════╝ - Project | DEVNEET ID
+██╔██╗ ██║█████╗   ╚███╔╝ ██║   ██║███████╗
+██║╚██╗██║██╔══╝   ██╔██╗ ██║   ██║╚════██║
+██║ ╚████║███████╗██╔╝ ██╗╚██████╔╝███████║
+╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝ - Exit? CTRL + C  
+        ";
+        echo "Start Watching..\n";
         // Continuous loop for monitoring changes
         while (true) {
+          self::clearConsole();
           // Get the current modified time of the specified path
           $currentModifiedTime = self::isModified($path);
           // Check if the file has been modified since the last check
           if ($currentModifiedTime != $lastModifiedTime) {
             // Execute the build command
-            shell_exec("php " . $cli[0] . " build");
+            $resp = shell_exec("php " . $cli[0] . " build");
             // Notify that the system has been rebuilt
-            echo "Nexus : rebuilt..\n";
+            echo $resp."\n";
             // Update the last modified time
             $lastModifiedTime = $currentModifiedTime;
           }
@@ -145,6 +160,20 @@ class Engine {
         $serve = file_get_contents(__DIR__ . '/core/serve.php');
         @eval("?> " . $serve . " <?php");
       }
+    }
+  }
+
+  // Function to clear the console
+  private static function clearConsole() {
+    // Menentukan sistem operasi
+    $os = strtolower(PHP_OS);
+    // Membersihkan konsol berdasarkan sistem operasi
+    if (strpos($os, 'win') !== false) {
+      // Sistem Windows
+      shell_exec('cls');
+    } else {
+      // Sistem Unix/Linux
+      shell_exec('clear');
     }
   }
 
