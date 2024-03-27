@@ -14,6 +14,12 @@ class Engine {
   
   public static $BASEDIR = "";
 
+  public static $setup = [
+    "minify"=> true,
+    "autorun"=> true,
+    "htaccess"=> true,
+  ];
+
   public static $main = [];
 
   public static $dist = [];
@@ -26,6 +32,10 @@ class Engine {
     'C:/laragon/bin/php/php-8.1.10-Win32-vs16-x64/php.exe',  // Lokasi standar di Laragon (Windows)
   ];
 
+  public static function setup( $array ) {
+    self::$setup = array_merge(self::$setup, $array);
+  }
+
   /**
    * Build all bundles into one file.
    *
@@ -35,6 +45,8 @@ class Engine {
    * @return void
    */
   public static function build( $file, $type='plate', $minify=false ) {
+    self::setBaseurl();
+
     self::$dist['url'] = self::$BASEURL.$file.'.php';
     self::$dist['dir'] = self::$BASEDIR.$file.'.php';
     self::$dist['src'] = $file.'.php';
@@ -214,5 +226,21 @@ class Engine {
     }
 
     return $lastModifiedTime;
+  }
+
+
+  private static function setBaseurl() {
+    if (empty(self::$BASEURL)) {
+      $scheme = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+      $host = $_SERVER['HTTP_HOST'];
+      self::$BASEURL = $scheme . "://" . $host;
+      $documentRoot = $_SERVER['DOCUMENT_ROOT'];
+      $folderPath = dirname($_SERVER['PHP_SELF']);
+      $folderPath = $folderPath == '/' ? '' : $folderPath . '/';
+      if (!empty($folderPath)) {
+        $folderPath = str_ireplace('//', '/', $folderPath);
+        self::$BASEURL .= $folderPath;
+      }
+    }
   }
 }

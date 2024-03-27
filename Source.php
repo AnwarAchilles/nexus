@@ -48,4 +48,18 @@ class Source {
     }
   }
 
+  // under development
+  // private static function _isMultiDimensionalArray($entry) {
+  //   if (!is_array($entry)) {
+  //     return false; // Bukan array, kembalikan false
+  //   }
+  //   // Periksa apakah setiap elemen dalam array adalah array juga
+  //   foreach ($entry as $value) {
+  //     if (is_array($value)) {
+  //       return true; // Jika ada satu elemen array lagi, kembalikan true
+  //     }
+  //   } 
+  //   return false; // Jika tidak ada elemen array lagi, kembalikan false
+  // }
+
 }
