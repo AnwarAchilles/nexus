@@ -1,15 +1,32 @@
 <?php
-
 namespace Nexus;
 
+/**
+ * Class Environment
+ *
+ * A class that provides functionality for managing and running Nexus environments.
+ */
 class Environment {
 
+  /** @var array $all An array to store all Nexus environments. */
   public static $all = [];
 
+  /**
+   * Set a Nexus environment.
+   *
+   * @param callable $nexus The Nexus environment function to set.
+   * @return void
+   */
   public static function set( $nexus ) {
-   self::$all[] = $nexus; 
+    self::$all[] = $nexus; 
   }
 
+  /**
+   * Run all Nexus environments.
+   *
+   * @param string $dist The distribution file name.
+   * @return void
+   */
   public static function run( $dist ) {
     foreach (self::$all as $nexus) {
       Source::$all = [];
@@ -32,7 +49,4 @@ class Environment {
     Engine::$dist['dir'] = Engine::$BASEDIR.$dist.'.php';
     Engine::$dist['src'] = $dist.'.php';
   }
-
-
-
 }
