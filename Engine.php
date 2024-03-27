@@ -32,6 +32,7 @@ class Engine {
     'C:/laragon/bin/php/php-8.1.10-Win32-vs16-x64/php.exe',  // Lokasi standar di Laragon (Windows)
   ];
 
+  // (UNDER DEVELOPMENT)
   public static function setup( $array ) {
     self::$setup = array_merge(self::$setup, $array);
   }
