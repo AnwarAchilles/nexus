@@ -63,7 +63,10 @@ class Engine {
       if ($cli[1] == 'build') {
         Bundler::classification($type, $minify);
         $delay = microtime(true);
-        $size = filesize(self::$dist['dir']);
+        $size = 0;
+        if (file_exists(self::$dist['dir'])) {
+          $size = filesize(self::$dist['dir']);
+        }
         if (file_put_contents(self::$dist['dir'], Bundler::render($type) )) {
           $done = round((microtime(true) - $delay) * 1000, 2);
           echo "✔️ build $file.php : done in $done/ms | $size/kb\n";
