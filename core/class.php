@@ -1,5 +1,5 @@
 <?php
-# PHP Bundler version - 0.0.1
+# Nexus version - 0.0.1
 # Author: Anwar Achilles | hudorianwar07@gmail.com
 
 new App@{{ HASH-APP }}([

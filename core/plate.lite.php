@@ -1,9 +1,6 @@
-<?php
-# Nexus version - 0.0.1
-# Author: Anwar Achilles | hudorianwar07@gmail.com
-@{{ PHP }}
-// ALL OF SOURCE ARE BUNDLING ?>
 <!DOCTYPE html>
+<!-- Nexus version - 0.0.1 -->
+<!-- Author: Anwar Achilles | hudorianwar07@gmail.com -->
 <html lang="en">
 <head>
 @{{ HTML-HEAD }}

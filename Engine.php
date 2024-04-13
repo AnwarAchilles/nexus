@@ -14,6 +14,8 @@ class Engine {
   
   public static $BASEDIR = "";
 
+  public static $PROTECT = "";
+
   public static $setup = [
     "minify"=> true,
     "autorun"=> true,
