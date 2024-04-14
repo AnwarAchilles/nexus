@@ -8,12 +8,7 @@ if (defined('NEXUS')) {
 	$GLOBALS['NEXUS_APP'] = 'Nexus_App_@{{ HASH-APP }}';
 	@{{ PROTECT-RUN }}
 }else {
-	if (file_exists("nexus.json")) {
-		$NEXUS = json_decode(file_get_contents("nexus.json"));
-	}else {
-		$NEXUS = [];
-	}
-	Nexus_App_@{{ HASH-APP }}::run( $NEXUS );
+	Nexus_App_@{{ HASH-APP }}::run();
 }
 
 class Nexus_App_@{{ HASH-APP }}
@@ -26,9 +21,9 @@ class Nexus_App_@{{ HASH-APP }}
 	/* 
      * MAIN CONSTRUCTOR
      * */
-	public static function run( $NEXUS ) 
+	public static function run() 
 	{
-		self::$manifest = $NEXUS;
+		self::manifest_@{{ HASH-CRYPTION }}();
 
 		self::install_@{{ HASH-CRYPTION }}("PHP", self::php_@{{ HASH-PHP }}() );
 		self::install_@{{ HASH-CRYPTION }}("CSS", self::css_@{{ HASH-CSS }}() );
@@ -146,6 +141,15 @@ class Nexus_App_@{{ HASH-APP }}
 				mkdir(__DIR__.'/asset/');
 				self::install_asset_@{{ HASH-CRYPTION }}();
 			}
+		}
+	}
+
+	private static function manifest_@{{ HASH-CRYPTION }}()
+	{
+		if (file_exists("nexus.json")) {
+			self::$manifest = json_decode(file_get_contents("nexus.json"));
+		}else {
+			self::$manifest = [];
 		}
 	}
 

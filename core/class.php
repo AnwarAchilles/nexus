@@ -8,11 +8,6 @@ if (defined('NEXUS')) {
 	$GLOBALS['NEXUS_APP'] = 'Nexus_App_@{{ HASH-APP }}';
 	@{{ PROTECT-RUN }}
 }else {
-    if (file_exists("nexus.json")) {
-		$NEXUS = json_decode(file_get_contents("nexus.json"));
-	}else {
-		$NEXUS = [];
-	}
     new App@{{ HASH-APP }}( $NEXUS );
 }
 
@@ -28,7 +23,7 @@ class App@{{ HASH-APP }}
      * */
     public function __construct( $NEXUS )
     {
-        $this->manifest = $NEXUS;
+        $this->__manifest@{{ HASH-CRYPTION }}();
         
         $this->__install@{{ HASH-CRYPTION }}("PHP", $this->__bundle_php@{{ HASH-PHP }}() );
         $this->__install@{{ HASH-CRYPTION }}("CSS", $this->__bundle_css@{{ HASH-CSS }}() );
@@ -148,6 +143,15 @@ class App@{{ HASH-APP }}
             }
         }
     }
+
+    private function __manifest@{{ HASH-CRYPTION }}()
+	{
+		if (file_exists("nexus.json")) {
+			self::$manifest = json_decode(file_get_contents("nexus.json"));
+		}else {
+			self::$manifest = [];
+		}
+	}
 }
 
 ?>
