@@ -2,20 +2,34 @@
 # Nexus version - 0.0.1
 # Author: Anwar Achilles | hudorianwar07@gmail.com
 
-new App@{{ HASH-APP }}([
-    
-]);
+if (defined('NEXUS')) {
+	$GLOBALS['NEXUS_APP'] = 'Nexus_App_@{{ HASH-APP }}';
+}else if (defined('NEXUS_PROTECT')) {
+	$GLOBALS['NEXUS_APP'] = 'Nexus_App_@{{ HASH-APP }}';
+	@{{ PROTECT-RUN }}
+}else {
+    if (file_exists("nexus.json")) {
+		$NEXUS = json_decode(file_get_contents("nexus.json"));
+	}else {
+		$NEXUS = [];
+	}
+    new App@{{ HASH-APP }}( $NEXUS );
+}
 
 class App@{{ HASH-APP }}
 {
 
+    private $manifest = [];
+    
     private $template = '@{{ TEMPLATE }}';
 
     /* 
      * MAIN CONSTRUCTOR
      * */
-    public function __construct( $APPS )
+    public function __construct( $NEXUS )
     {
+        $this->manifest = $NEXUS;
+        
         $this->__install@{{ HASH-CRYPTION }}("PHP", $this->__bundle_php@{{ HASH-PHP }}() );
         $this->__install@{{ HASH-CRYPTION }}("CSS", $this->__bundle_css@{{ HASH-CSS }}() );
         $this->__install@{{ HASH-CRYPTION }}("JS", $this->__bundle_js@{{ HASH-JS }}() );
