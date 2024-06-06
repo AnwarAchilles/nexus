@@ -83,12 +83,12 @@ Nexus\Engine::serve();
 
 #### Step - 4
 
-There is already a watch mode for browsers by simply opening <your project>/nexus.php,
+There is already a watch mode for browsers by simply opening {YOUR_PROJECT}/nexus.php,
 to use is open a browser and open your local development to enter watch mode, open the nexus.php
 
 You can also do it like this with the command line.
 ```bash
-cd <your project folder>
+cd {YOUR_PROJECT_DIRECTORY}
 
 $php nexus.php
 ```
