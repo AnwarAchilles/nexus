@@ -8,9 +8,15 @@ version - Beta
 ## How To Use
 
 #### Step - 1
-First move all these git files into the nexus/ folder
-Then create a src/ folder to hold the source files
+Load this file to your local by using
+```bash
+git clone https://github.com/AnwarAchilles/nexus.git
+```
+
+#### Step - 2
+First create a src/ folder to hold the source files
 After that create a Nexus file.php for the development environment.
+optional after you clear editing you can remove .php extension
 
 ```markup
 ┣━ nexus/
@@ -24,21 +30,59 @@ After that create a Nexus file.php for the development environment.
 
 ```
 
-#### Step - 2
+#### Step - 3
 
 nexus.php file, and then enter the following code.
 
+the basic is like this
 ```php
 <?php
-// prepare v2
+// load nexus
+require_once __DIR__ . '/nexus/autoload.php';
+// run nexus
+Nexus\Engine::serve();
 ```
 
-#### Step - 3
+or you can use this
+```php
+<?php
+// load nexus
+require_once __DIR__ . '/nexus/autoload.php';
+// set base working directory.
+Nexus\Setup::base('DIR', __DIR__);
+// set environment partially.
+Nexus\Engine::env('/index.php', function() {
+  // Re:Setup environment.
+  Nexus\Setup::env('TYPE', 'class');
+  // set source code.
+  Nexus\Source::code('/src/index.html');
+  Nexus\Source::code('/src/index.css');
+  Nexus\Source::code('/src/index.js');
+  Nexus\Source::code('/src/index.php');
+});
+// set build cli triggering.
+Nexus\Engine::cli('build', function() {
+  Nexus\Engine::env('/index.php');
+});
+
+// set watch build in nexus observer.
+Nexus\Engine::cli('watch', function() {
+  // listing all cli on observer.
+  Nexus\Engine::observer('/src/', [
+    Nexus\Engine::cli('build') ['argument']
+  ]);
+});
+
+// run nexus
+Nexus\Engine::serve();
+```
+
+#### Step - 4
 
 There is already a watch mode for browsers by simply opening <your project>/nexus.php,
 to use is open a browser and open your local development to enter watch mode, open the nexus.php
 
-You can also build and watch with the command line, like this.
+You can also do it like this with the command line.
 ```bash
 cd <your project folder>
 
