@@ -6,7 +6,7 @@ namespace Nexus;
 class Setup
 {
 
-  public static $version = '2.0.2';
+  public static $version = '2.0.3';
 
   public static $base = [
     'DIR'=> '',

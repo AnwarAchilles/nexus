@@ -1,1 +1,1 @@
-NEXUS v2.0.0 | Created By @anwarachilles
+NEXUS @{COPYRIGHT-VERSION} | Created By @anwarachilles

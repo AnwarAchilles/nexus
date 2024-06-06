@@ -74,6 +74,7 @@ class Compiler
     
     self::$entries["initialize"] = self::$core;
     self::$entries["copyright"] = self::getCore("copyright.txt");
+    self::$entries['copyright-version'] = Setup::$version;
     if ($setup->construct->TYPE=='class') {
       self::$entries['hash-app'] = Helper::hashRandom();
       self::$entries['construct'] = Helper::encryptData(self::getCore('class.txt'), $setup->construct->ENCRYPTION);
