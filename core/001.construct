@@ -1,0 +1,16 @@
+[[NEXUS]] {"TYPE":"PLAIN", "LANGUAGE":["HTML"]} [[NEXUS]]
+<!DOCTYPE html>
+<html>
+<head>
+  
+  <!-- @{COPYRIGHT} -->
+
+@{HTML-HEAD}
+
+</head>
+<body>
+
+@{HTML-BODY}
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+[[NEXUS]] {"TYPE":"PLAIN", "LANGUAGE":["PHP"]} [[NEXUS]]
+<?php
+
+/* @{COPYRIGHT} */
+ 
+@{PHP}
