@@ -3,26 +3,29 @@
 
 The concept is to wrap all HTML, CSS, JS, PHP into 1 PHP file only, very useful for the construction of simple 1 file tools without conflict.
 
-version - Beta
+version 2 - Beta
 
 ## How To Use
 
 #### Step - 1
 Load this file to your local by using
 ```bash
+cd {YOUR_PROJECT_DIRECTORY}
 git clone https://github.com/AnwarAchilles/nexus.git
 ```
 
+
 #### Step - 2
-First create a src/ folder to hold the source files
-After that create a Nexus file.php for the development environment.
+First create a nexus.php for the development environment.
 optional after you clear editing you can remove .php extension
+our goal is to set all of the src/ to single file index.php
 
 ```markup
 ┣━ nexus/
 ┃   ┣━ <all nexus file should be here>
 ┣━ src/
 ┃   ┣━ index.php
+┃   ┣━ index.head.html
 ┃   ┣━ index.html
 ┃   ┣━ index.css
 ┃   ┣━ index.js
@@ -43,6 +46,12 @@ require_once __DIR__ . '/nexus/autoload.php';
 Nexus\Engine::serve();
 ```
 
+then run this command.
+```bash
+php nexus.php example
+```
+
+
 or you can use this, for continue step 2
 ```php
 <?php
@@ -58,6 +67,7 @@ Nexus\Engine::env('/index.php', function() {
   // Re:Setup environment.
   Nexus\Setup::env('TYPE', 'class');
   // set source code.
+  Nexus\Source::code('/src/index.head.html'); // specialy for head html
   Nexus\Source::code('/src/index.html');
   Nexus\Source::code('/src/index.css');
   Nexus\Source::code('/src/index.js');
@@ -80,6 +90,8 @@ Nexus\Engine::cli('watch', function() {
 // run nexus
 Nexus\Engine::serve();
 ```
+you will have 2 command 'build' and 'watch'
+
 
 #### Step - 4
 
@@ -89,8 +101,7 @@ to use is open a browser and open your local development to enter watch mode, op
 You can also do it like this with the command line.
 ```bash
 cd {YOUR_PROJECT_DIRECTORY}
-
-$php nexus.php
+php nexus.php
 ```
 
 #
