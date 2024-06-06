@@ -90,6 +90,7 @@ class Engine
       if (str_contains($call, 'run')) {
         if (Helper::isCli()) {
           $args = Helper::argCli();
+          
           if (Helper::verifyCli('')) {
             Helper::baseCli();
             Helper::textCli([
@@ -176,76 +177,66 @@ class Engine
         // echo "$color_open " . implode("$color_close $color_open", self::getState()) . "$color_close";
       }
     }
+  }
 
-
-    // ENV shorthand
-    if (str_contains($call, 'env')) {
-      $name = Helper::indexData($param, 0, '');
-      $callback = Helper::indexData($param, 1, false);
-
-      if ($callback!==false) {
-        self::setConstruct( $name, $callback );
-        return true;
-      }else {
-        return self::runConstruct( $name );
-      }
-    }
-
-    // CLI shorthand
-    if (str_contains($call, 'cli')) {
-      $args = Helper::indexData($param, 0, '');
-      $callback = Helper::indexData($param, 1, false);
-      
-      if ($callback!==false) {
-        self::setCommand( $args, $callback );
-        return true;
-      }else {
-        return self::getCommand( $args );
-      }
-    }
-
-    if (str_contains($call, 'serve')) {
-      self::runCommand();
-    }
-
-    if (str_contains($call, 'observer')) {
-      $target = Helper::indexData($param, 0, '');
-      $arguments = Helper::indexData($param, 1, ['']);
-
-      $targetPath = Helper::cleanPath(Setup::getBase('DIR') . $target);
-
-      $lastModifiedTime = Helper::isModified( $targetPath );
-
-      $state = true;
-      
-      Helper::watchCli();
-      $loading = 1;
-      
-      while ($state) {
-        
-        $currentModifiedTime = Helper::isModified( $targetPath );
-        if ($currentModifiedTime != $lastModifiedTime) {
-          $lastModifiedTime = $currentModifiedTime;
-          foreach ($arguments as $arg) {
-            echo shell_exec($arg);
-          }
-          sleep(1);
-          Helper::watchCli();
-        }
-        
-        if ($loading==5) {
-          Helper::watchCli();
-          $loading = 0;
-        }else {
-          $loading++;
-          echo " \033[01;36m.\033[0m ";
-        }
-
-        sleep(1);
-      }
+  public static function env( $name, $callback=false )
+  {
+    if ($callback!==false) {
+      self::setConstruct( $name, $callback );
+      return true;
+    }else {
+      return self::runConstruct( $name );
     }
   }
 
+  public static function cli( $args, $callback=false )
+  {
+    if ($callback!==false) {
+      self::setCommand( $args, $callback );
+      return true;
+    }else {
+      return self::getCommand( $args );
+    }
+  }
+
+  public static function serve()
+  {
+    self::runCommand();
+  }
+
+  public static function observer($target, $arguments=[])
+  {
+    $targetPath = Helper::cleanPath(Setup::getBase('DIR') . $target);
+    $lastModifiedTime = Helper::isModified( $targetPath );
+
+    $state = true;
+    
+    Helper::watchCli();
+    $loading = 1;
+    
+    while ($state) {
+      
+      $currentModifiedTime = Helper::isModified( $targetPath );
+      if ($currentModifiedTime != $lastModifiedTime) {
+        $lastModifiedTime = $currentModifiedTime;
+        foreach ($arguments as $arg) {
+          echo shell_exec($arg);
+        }
+        sleep(1);
+        Helper::watchCli();
+      }
+      
+      if ($loading==5) {
+        Helper::watchCli();
+        $loading = 0;
+      }else {
+        $loading++;
+        echo " \033[01;36m.\033[0m ";
+      }
+
+      sleep(1);
+    }
+  }
 
   public static function load($name)
   {
