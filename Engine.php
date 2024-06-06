@@ -100,6 +100,7 @@ class Engine
               implode("\n", array_map(function($item) { return $item['argument']; }, self::$command)),
               "",
               "# Command Helper",
+              "php ".$_SERVER['PHP_SELF']." example",
               "php ".$_SERVER['PHP_SELF']." documentation",
               "php ".$_SERVER['PHP_SELF']." upgrade",
             ]);
@@ -114,6 +115,20 @@ class Engine
           if (Helper::verifyCli('documentation')) {
             Helper::baseCli();
             Helper::documentationCli();
+            return true;
+          }
+          if (Helper::verifyCli('example')) {
+            $user = getcwd();
+            $example = __DIR__ . '\\example';
+            copy($example.'\\nexus.php', $user.'\\nexus.php');
+            if (!file_exists($user.'\\src\\')) {
+              mkdir($user.'\\src\\', 777);
+            }
+            copy($example.'\\src\\index.php', $user.'\\src\\index.php');
+            copy($example.'\\src\\index.html', $user.'\\src\\index.html');
+            copy($example.'\\src\\index.css', $user.'\\src\\index.css');
+            copy($example.'\\src\\index.js', $user.'\\src\\index.js');
+            copy($example.'\\src\\index.head.html', $user.'\\src\\index.head.html');
             return true;
           }
           if (Helper::verifyCli($args)) {

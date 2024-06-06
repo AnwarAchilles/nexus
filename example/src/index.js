@@ -1,0 +1,1 @@
+document.querySelector("#js").innerHTML = "Changed by javascript successfully";
