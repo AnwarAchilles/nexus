@@ -34,7 +34,7 @@ optional after you clear editing you can remove .php extension
 
 nexus.php file, and then enter the following code.
 
-the basic is like this
+the basic to test nexus is ready, use this code.
 ```php
 <?php
 // load nexus
@@ -43,13 +43,16 @@ require_once __DIR__ . '/nexus/autoload.php';
 Nexus\Engine::serve();
 ```
 
-or you can use this
+or you can use this, for continue step 2
 ```php
 <?php
+
 // load nexus
 require_once __DIR__ . '/nexus/autoload.php';
+
 // set base working directory.
 Nexus\Setup::base('DIR', __DIR__);
+
 // set environment partially.
 Nexus\Engine::env('/index.php', function() {
   // Re:Setup environment.
@@ -60,6 +63,7 @@ Nexus\Engine::env('/index.php', function() {
   Nexus\Source::code('/src/index.js');
   Nexus\Source::code('/src/index.php');
 });
+
 // set build cli triggering.
 Nexus\Engine::cli('build', function() {
   Nexus\Engine::env('/index.php');
