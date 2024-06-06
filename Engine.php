@@ -105,7 +105,7 @@ class Engine
           if (Helper::verifyCli('upgrade')) {
             echo shell_exec("cls");
             echo shell_exec("clear");
-            echo shell_exec("git pull origin main");
+            echo shell_exec("git ".__DIR__." pull origin main");
             return true;
           }
           if (Helper::verifyCli('documentation')) {
