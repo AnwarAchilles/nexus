@@ -95,6 +95,8 @@ class Engine
             Helper::textCli([
               "Build your own command and apps, as simple as we setup",
               "",
+              "# Command Registered",
+              implode("\n", array_map(function($item) { return $item['argument']; }, self::$command)),
               "",
               "# Command Helper",
               "php ".$_SERVER['PHP_SELF']." documentation",
