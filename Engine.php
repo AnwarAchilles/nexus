@@ -16,7 +16,7 @@ class Engine
 
   public static function __callStatic( $call, $param )
   {
-    
+
     // BUILDER SECTION
     if (str_contains($call, 'Construct')) {
       $name = Helper::indexData($param, 0, '');
@@ -31,10 +31,14 @@ class Engine
       }
       if (str_contains($call, 'set')) {
         if (!self::hasConstruct($name)) {
-          self::$construct[$name] = [
-            'distribution'=> $name,
-            'execution'=> $callback,
-          ];
+          self::$construct[$name] = new Construct([
+            'distribute'=> $name,
+            'execute'=> $callback,
+          ]);
+          // self::$construct[$name] = [
+          //   'distribution'=> $name,
+          //   'execution'=> $callback,
+          // ];
         }
       }
       if (str_contains($call, 'get')) {
@@ -44,7 +48,7 @@ class Engine
       }
       if (str_contains($call, 'run')) {
         if (self::hasConstruct($name)) {
-          self::$construct[$name]['execution']();
+          self::$construct[$name]->run();
 
           $compiler = Compiler::bundling(self::load($name), Source::load(), Setup::load(), microtime(true));
 
@@ -53,8 +57,6 @@ class Engine
             "Success bundling '$name' in " . $compiler->time . " seconds with " . Helper::formatFileSize($compiler->size),
             "SUCCESS"
           );
-
-          // echo $index;
           
           Setup::reset();
           Source::reset();
@@ -76,10 +78,14 @@ class Engine
       }
       if (str_contains($call, 'set')) {
         if (!self::hasCommand($args)) {
-          self::$command[$args] = [
+          self::$command[$args] = new Command([
             'argument'=> 'php ' . $_SERVER['PHP_SELF'] . ' ' . $args,
-            'execution'=> $callback,
-          ];
+            'execute'=> $callback,
+          ]);
+          // self::$command[$args] = [
+          //   'argument'=> 'php ' . $_SERVER['PHP_SELF'] . ' ' . $args,
+          //   'execution'=> $callback,
+          // ];
         }
       }
       if (str_contains($call, 'get')) {
@@ -97,7 +103,7 @@ class Engine
               "Build your own command and apps, as simple as we setup",
               "",
               "# Command Registered",
-              implode("\n", array_map(function($item) { return $item['argument']; }, self::$command)),
+              implode("\n", array_map(function($item) { return $item->argument; }, self::$command)),
               "",
               "# Command Helper",
               "php ".$_SERVER['PHP_SELF']." example",
@@ -133,12 +139,12 @@ class Engine
           }
           if (Helper::verifyCli($args)) {
             if (self::hasCommand($args)) {
-              self::getCommand($args)['execution'] ();
+              self::getCommand($args)->run();
             }else {
               Helper::textCli([
                 "\033[01;31mNo command found with this arguments\033[0m",
                 "\033[01;36mTry another command has been registered on your nexus\033[0m",
-                implode("\n", array_map(function($item) { return $item['argument']; }, self::$command)),
+                implode("\n", array_map(function($item) { return $item->argument; }, self::$command)),
               ]);
             }
             self::cliState();

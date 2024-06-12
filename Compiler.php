@@ -129,15 +129,15 @@ class Compiler
       $setup = Helper::indexData($param, 0, '');
       $engine = Helper::indexData($param, 1, '');
 
-      $directory = pathinfo($setup->base->DIR . '/' . $engine['construct']['distribution'], PATHINFO_DIRNAME);
+      $directory = pathinfo($setup->base->DIR . '/' . $engine['construct']->distribute, PATHINFO_DIRNAME);
       if (!file_exists($directory)) {
         mkdir($directory, 777);
       }
-      if (!file_exists($setup->base->DIR . '/' . $engine['construct']['distribution'])) {
-        touch($setup->base->DIR . '/' . $engine['construct']['distribution']);
+      if (!file_exists($setup->base->DIR . '/' . $engine['construct']->distribute)) {
+        touch($setup->base->DIR . '/' . $engine['construct']->distribute);
       }
       
-      self::$distribute['file'] = Helper::cleanPath($setup->base->DIR . '/' . $engine['construct']['distribution']);
+      self::$distribute['file'] = Helper::cleanPath($setup->base->DIR . '/' . $engine['construct']->distribute);
 
       foreach (self::$entries as $variable=>$data) {
         self::$distribute['data'] = str_ireplace(
