@@ -234,10 +234,17 @@ class Engine
       $currentModifiedTime = Helper::isModified( $targetPath );
       if ($currentModifiedTime != $lastModifiedTime) {
         $lastModifiedTime = $currentModifiedTime;
-        foreach ($arguments as $arg) {
-          echo shell_exec($arg);
-        }
+        
+        echo shell_exec(implode(" & ", array_map(function($item) {
+          // return "start cmd /k " . $item;
+          return $item;
+        }, $arguments)));
+
+        // foreach ($arguments as $arg) {
+        //   echo shell_exec($arg);
+        // }
         sleep(1);
+
         Helper::watchCli();
       }
       
