@@ -149,7 +149,7 @@ Nexus\Engine::cli('build', function() {
 \x1b[38;5;244m// Set watch build in nexus observer.\033[0m
 Nexus\Engine::cli('watch', function() {
   Nexus\Engine::observer('/src/', [
-    Nexus\Engine::cli('build') ['argument']
+    Nexus\Engine::cli('build')->argument
   ]);
 });
 
@@ -216,7 +216,7 @@ Nexus\Engine::cli('build', function() {
 Nexus\Engine::cli('watch', function() {
   \x1b[38;5;244m// listing all cli on observer.\033[0m
   Nexus\Engine::observer('/src/', [
-    Nexus\Engine::cli('build') ['argument']
+    Nexus\Engine::cli('build')->argument
   ]);
 });
 

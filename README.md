@@ -83,7 +83,7 @@ Nexus\Engine::cli('build', function() {
 Nexus\Engine::cli('watch', function() {
   // listing all cli on observer.
   Nexus\Engine::observer('/src/', [
-    Nexus\Engine::cli('build') ['argument']
+    Nexus\Engine::cli('build')->argument
   ]);
 });
 
