@@ -225,6 +225,20 @@ class Engine
     self::runCommand();
   }
 
+  public static function window( $engine ) {
+    shell_exec(implode(" & ", array_map(function($item) {
+      return "start cmd /k " . $item;
+    }, $engine)));
+  }
+
+  public static function localhost($port, $location='') {
+    if (!empty($location)) {
+      return shell_exec("php -S localhost:" . $port . " " . $location);
+    }else {
+      return shell_exec("php -S localhost:" . $port . " " . Setup::getBase('DIR'));
+    }
+  }
+
   public static function observer($target, $arguments=[])
   {
     $targetPath = Helper::cleanPath(Setup::getBase('DIR') . $target);

@@ -20,16 +20,28 @@ Nexus\Engine::env('/index.php', function() {
 
 // set build cli triggering.
 Nexus\Engine::cli('build', function() {
-  Nexus\Engine::env('/index.php');
+  Nexus\Engine::env('/dist/index.php');
+});
+
+// set server localhost
+Nexus\Engine::cli('serve', function() {
+  Nexus\Engine::localhost(8000);
 });
 
 // set watch build in nexus observer.
 Nexus\Engine::cli('watch', function() {
-  // listing all cli on observer.
   Nexus\Engine::observer('/src/', [
-    Nexus\Engine::cli('build') ['argument']
+    Nexus\Engine::cli('build')->argument
   ]);
 });
 
-// run nexus
+// shorthand cli start
+Nexus\Engine::cli('start', function() {
+  Nexus\Engine::window([
+    Nexus\Engine::cli('serve')->argument,
+    Nexus\Engine::cli('watch')->argument
+  ]);
+});
+
+// run nexus.
 Nexus\Engine::serve();
