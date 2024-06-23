@@ -76,7 +76,7 @@ Nexus\Engine::env('/index.php', function() {
 
 // set build cli triggering.
 Nexus\Engine::cli('build', function() {
-  Nexus\Engine::env('/dist/index.php');
+  Nexus\Engine::env('/index.php');
 });
 
 // set server localhost
