@@ -235,7 +235,7 @@ class Engine
     if (!empty($location)) {
       return shell_exec("php -S localhost:" . $port . " " . $location);
     }else {
-      return shell_exec("php -S localhost:" . $port . " " . Setup::getBase('DIR'));
+      return shell_exec("php -S localhost:" . $port);
     }
   }
 
