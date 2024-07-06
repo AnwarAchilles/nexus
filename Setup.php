@@ -6,7 +6,7 @@ namespace Nexus;
 class Setup
 {
 
-  public static $version = '2.0.8';
+  public static $version = '2.0.9';
 
   public static $base = [
     'DIR'=> '',
@@ -20,6 +20,7 @@ class Setup
     'JAVASCRIPT'=> 'text/javascript',
     'AUTORUN'=> true,
     'HTML'=> 'en',
+    'MINIFIED'=> [],
   ];
 
 
