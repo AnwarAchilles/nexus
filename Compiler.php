@@ -184,13 +184,9 @@ class Compiler
         }
         if ($code->filesize) {
           if (in_array('css', self::$setup->construct->MINIFIED)) {
-            if ($parse_key=='css') {
-              self::$cluster['code'][$parse_key][] = Helper::minifiedCss(Helper::decryptData($code->filedata), 'base64');
-            }
+            self::$cluster['code'][$parse_key][] = Helper::minifiedCss(Helper::decryptData($code->filedata), 'base64');
           }else if (in_array('js', self::$setup->construct->MINIFIED)) {
-            if ($parse_key=='js') {
-              self::$cluster['code'][$parse_key][] = Helper::minifiedJs(Helper::decryptData($code->filedata), 'base64');
-            }
+            self::$cluster['code'][$parse_key][] = Helper::minifiedJs(Helper::decryptData($code->filedata), 'base64');
           }else {
             self::$cluster['code'][$parse_key][] = Helper::decryptData($code->filedata, 'base64');
           }
