@@ -87,3 +87,24 @@ body {
   max-width: 300px;
   overflow: hidden;
 }
+
+#gotoGithub {
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+}
+#gotoGithub img {
+  transform: scale(1.5);
+}
+#gotoGithub:hover img {
+  transform: scale(1);
+  transition: transform 1s ease-in-out;
+}
+#gotoGithub span {
+  width: 0;
+  overflow: hidden;
+}
+#gotoGithub:hover span {
+  width: 100%;
+  transition: width 1s ease-in-out;
+}

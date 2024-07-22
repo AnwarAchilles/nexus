@@ -78,7 +78,7 @@ class Compiler
     self::$entries['copyright-version'] = Setup::$version;
     if ($setup->construct->TYPE=='class') {
       self::$entries['hash-app'] = Helper::hashRandom();
-      self::$entries['construct'] = Helper::encryptData(self::getCore('class.txt'), $setup->construct->ENCRYPTION);
+      self::$entries['construct'] = Helper::encryptData(str_ireplace('<html>', '<html lang="'.$setup->construct->HTML.'">', self::getCore('class.txt')), $setup->construct->ENCRYPTION);
       self::$entries['manifest'] = Helper::encryptData(json_encode($setup), $setup->construct->ENCRYPTION);
       self::$entries['encryption'] = $setup->construct->ENCRYPTION;
     }
