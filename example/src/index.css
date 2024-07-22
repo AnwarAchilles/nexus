@@ -78,10 +78,6 @@ body {
   font-size: 1.5rem;
   letter-spacing: .6rem;
 }
-#logo>b {
-  color: #9cb6ff;
-  font-size: 1.7rem;
-}
 
 #loop-process {
   max-width: 300px;
