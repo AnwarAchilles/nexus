@@ -54,7 +54,7 @@ class Engine
 
           self::setState(
             __CLASS__.':'.$call, 
-            "Success bundling '$name' in " . $compiler->time . " seconds with " . Helper::formatFileSize($compiler->size),
+            "Success bundling '$name' in " . $compiler->time . "s with " . Helper::formatFileSize($compiler->size),
             "SUCCESS"
           );
           
@@ -100,7 +100,7 @@ class Engine
           if (Helper::verifyCli('')) {
             Helper::baseCli();
             Helper::textCli([
-              "Build your own command and apps, as simple as we setup",
+              "The concept is to wrap all HTML, CSS, JS, PHP into 1 PHP file only, \n very useful for the construction of simple 1 file tools without conflict.",
               "",
               "# Command Registered",
               implode("\n", array_map(function($item) { return $item->argument; }, self::$command)),
@@ -242,42 +242,39 @@ class Engine
   public static function observer($target, $arguments=[])
   {
     $targetPath = Helper::cleanPath(Setup::getBase('DIR') . $target);
-    $lastModifiedTime = Helper::isModified( $targetPath );
+    $lastModifiedTime = Helper::isModified($targetPath);
 
     $state = true;
-    
+
     Helper::watchCli();
     $loading = 1;
-    
+
+    // Interval untuk pemeriksaan dalam detik
+    $interval = 3;
+
     while ($state) {
-      
-      $currentModifiedTime = Helper::isModified( $targetPath );
-      if ($currentModifiedTime != $lastModifiedTime) {
-        $lastModifiedTime = $currentModifiedTime;
-        
-        echo shell_exec(implode(" & ", array_map(function($item) {
-          // return "start cmd /k " . $item;
-          return $item;
-        }, $arguments)));
+        $currentModifiedTime = Helper::isModified($targetPath);
+        if ($currentModifiedTime != $lastModifiedTime) {
+            $lastModifiedTime = $currentModifiedTime;
 
-        // foreach ($arguments as $arg) {
-        //   echo shell_exec($arg);
+            echo shell_exec(implode(" & ", array_map(function($item) {
+                return $item;
+            }, $arguments)));
+
+            // Helper::watchCli();
+        }
+
+        // if ($loading == 5) {
+        //     Helper::watchCli();
+        //     $loading = 0;
+        // } else {
+        //     $loading++;
+        //     echo " \033[01;36m.\033[0m ";
         // }
-        sleep(1);
 
-        Helper::watchCli();
-      }
-      
-      if ($loading==5) {
-        Helper::watchCli();
-        $loading = 0;
-      }else {
-        $loading++;
-        echo " \033[01;36m.\033[0m ";
-      }
-
-      sleep(1);
+        sleep($interval);
     }
+
   }
 
   public static function load($name)

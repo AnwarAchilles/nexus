@@ -1,7 +1,28 @@
+<div class="effect"></div>
 
-<h1>Nexus Test</h1>
-<ol type="A">
-  <li id="css">Colored by css</li>
-  <li id="js">Changed by javascript</li>
-  <li>variable php here <?= $test ?></li>
-</ol>
+<!-- wrapper -->
+<div size="w-1 h-1" flex="middle center">
+  
+  <!-- content -->
+  <div container text="center" flex="middle column">
+
+    <!-- logo -->
+    <h1 id="logo" size="mb-5">NE<b>✘</b>US</h1>
+
+    <!-- header -->
+    <h1 id="title" size="mb-5">A Lightweight PHP build tools</h1>
+    
+    <ul list size="mb-5">
+      <li><small id="speed-result"></small></li>
+      <li><small><?= "Backend load time: " . speedResult($start_time) . "s"; ?></small></li>
+    </ul>
+    
+    <!-- description -->
+    <div container sm:size="w-2">
+      <h1 id="description">
+        An innovative module that synthesizes HTML, CSS, JS, and PHP into a single, optimized file for seamless deployment.
+      </h1>
+    </div>
+
+  </div>
+</div>

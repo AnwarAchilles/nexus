@@ -144,6 +144,99 @@ class Helper
     return $minifiedCode;
   }
 
+  public static function minifiedHtml($input) {
+    if (trim($input) === "") {
+        return $input;
+    }
+
+    // Remove extra white-space(s) between HTML attribute(s)
+    $input = preg_replace_callback(
+        '#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s',
+        function ($matches) {
+            return '<' . $matches[1] . preg_replace('#([^\s=]+)(\=([\'"]?)(.*?)\3)?(\s+|$)#s', ' $1$2', $matches[2]) . $matches[3] . '>';
+        },
+        str_replace("\r", "", $input)
+    );
+
+    // Minify HTML
+    $input = preg_replace(
+        array(
+            // t = text
+            // o = tag open
+            // c = tag close
+            // Keep important white-space(s) after self-closing HTML tag(s)
+            '#<(img|input)(>| .*?>)#s',
+            // Remove a line break and two or more white-space(s) between tag(s)
+            '#(<!--.*?-->)|(>)(?:\n*|\s{2,})(<)|^\s*|\s*$#s',
+            '#(<!--.*?-->)|(?<!\>)\s+(<\/.*?>)|(<[^\/]*?>)\s+(?!\<)#s', // t+c || o+t
+            '#(<!--.*?-->)|(<[^\/]*?>)\s+(<[^\/]*?>)|(<\/.*?>)\s+(<\/.*?>)#s', // o+o || c+c
+            '#(<!--.*?-->)|(<\/.*?>)\s+(\s)(?!\<)|(?<!\>)\s+(\s)(<[^\/]*?\/?>)|(<[^\/]*?\/?>)\s+(\s)(?!\<)#s', // c+t || t+o || o+t -- separated by long white-space(s)
+            '#(<!--.*?-->)|(<[^\/]*?>)\s+(<\/.*?>)#s', // empty tag
+            '#<(img|input)(>| .*?>)<\/\1>#s', // reset previous fix
+            '#(&nbsp;)&nbsp;(?![<\s])#', // clean up ...
+            '#(?<=\>)(&nbsp;)(?=\<)#', // --ibid
+            // Remove HTML comment(s) except IE comment(s)
+            '#\s*<!--(?!\[if\s).*?-->\s*|(?<!\>)\n+(?=\<[^!])#s'
+        ),
+        array(
+            '<$1$2</$1>',
+            '$1$2$3',
+            '$1$2$3',
+            '$1$2$3$4$5',
+            '$1$2$3$4$5$6$7',
+            '$1$2$3',
+            '<$1$2',
+            '$1 ',
+            '$1',
+            ""
+        ),
+        $input
+    );
+
+    // Remove remaining line breaks and tabs
+    $input = preg_replace('/\n\s*\n/', "\n", $input); // Remove double newlines
+    $input = preg_replace('/\t/', '', $input); // Remove tabs
+    $input = preg_replace('/\s+/', ' ', $input); // Collapse multiple spaces into one
+    $input = preg_replace('/\n\s*/', "\n", $input); // Remove line breaks followed by spaces
+
+    // Trim any leading or trailing whitespace and newlines
+    $input = trim($input);
+
+    return $input;
+  }
+
+  public static function minifiedPhp($input) {
+    // Hapus komentar baris (//) dan komentar blok (/* ... */)
+    $input = preg_replace('/\/\/.*$/m', '', $input); // Hapus komentar baris
+    $input = preg_replace('/\/\*[\s\S]*?\*\//', '', $input); // Hapus komentar blok
+
+    // Hapus spasi dan tab yang tidak perlu, termasuk yang ada di baris kosong
+    $input = preg_replace('/\s+/', ' ', $input); // Hapus spasi berlebih
+    $input = preg_replace('/\s*\n\s*/', "\n", $input); // Hapus baris kosong
+
+    // Hapus spasi di sekitar tanda kurung, kurung kurawal, dan titik koma
+    $input = preg_replace('/\s*([\(\)\{\};,])\s*/', '$1', $input);
+
+    // Hapus baris kosong di awal dan akhir
+    $input = trim($input);
+
+    return $input;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   public static function hashRandom() {
     return hash('sha256', time());
   }
@@ -158,13 +251,13 @@ class Helper
   }
 
   public static function formatFileSize($size, $precision = 2) {
-    $units = array('BYTE', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+    $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
     $i = 0;
     while ($size >= 1024) {
         $size /= 1024;
         $i++;
     }
-    return round($size, $precision) . ' ' . $units[min($i, count($units) - 1)];
+    return round($size, $precision) . '' . $units[min($i, count($units) - 1)];
   }
 
   public static function isModified($path) {
@@ -202,7 +295,8 @@ class Helper
 
   public static function watchCli()
   {
-    echo shell_exec('clear');
+    // echo shell_exec('clear');
+    // echo shell_exec('cls');
     Helper::textCli([
       " ",
       " \033[01;34mNEXUS\033[0m - Observer Directories",

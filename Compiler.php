@@ -71,6 +71,7 @@ class Compiler
     self::matchCore();
 
     self::classificate();
+    self::$core = str_ireplace('<html>', '<html lang="'.$setup->construct->HTML.'">', self::$core);
     
     self::$entries["initialize"] = self::$core;
     self::$entries["copyright"] = self::getCore("copyright.txt");
@@ -81,7 +82,6 @@ class Compiler
       self::$entries['manifest'] = Helper::encryptData(json_encode($setup), $setup->construct->ENCRYPTION);
       self::$entries['encryption'] = $setup->construct->ENCRYPTION;
     }
-    // dd(self::$cluster['code']);
     foreach (self::$cluster['code'] as $variable=>$entry) {
       if ($setup->construct->TYPE == 'plain') {
         $data = implode("\n", $entry);
@@ -147,7 +147,7 @@ class Compiler
         );
       }
       
-      self::$distribute['data'] = str_ireplace("\n \n", "\n", self::$distribute['data']);
+      self::$distribute['data'] = preg_replace('/\n\s*\n/', "\n", self::$distribute['data']);
   
       if (file_put_contents(self::$distribute['file'], self::$distribute['data'])) {
         return true;
@@ -192,6 +192,18 @@ class Compiler
           }else if ($parse_key=='js') {
             if (in_array('js', self::$setup->construct->MINIFIED)) {
               self::$cluster['code'][$parse_key][] = Helper::minifiedJs(Helper::decryptData($code->filedata), 'base64');
+            }else {
+              self::$cluster['code'][$parse_key][] = Helper::decryptData($code->filedata, 'base64');
+            }
+          }else if ($parse_key=='php') {
+            if (in_array('php', self::$setup->construct->MINIFIED)) {
+              self::$cluster['code'][$parse_key][] = Helper::minifiedPhp(Helper::decryptData($code->filedata), 'base64');
+            }else {
+              self::$cluster['code'][$parse_key][] = Helper::decryptData($code->filedata, 'base64');
+            }
+          }else if (($parse_key=='html-body') || ($parse_key=='html-head')) {
+            if (in_array('html', self::$setup->construct->MINIFIED)) {
+              self::$cluster['code'][$parse_key][] = Helper::minifiedHtml(Helper::decryptData($code->filedata), 'base64');
             }else {
               self::$cluster['code'][$parse_key][] = Helper::decryptData($code->filedata, 'base64');
             }
