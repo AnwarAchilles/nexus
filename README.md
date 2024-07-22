@@ -1,5 +1,7 @@
 
-# Nexus - Toolkit PHP to bundling All Source to SPA
+# Nexus - A Lightweight PHP build tools
+
+An innovative module that synthesizes HTML, CSS, JS, and PHP into a single, optimized file for seamless deployment.
 
 The concept is to wrap all HTML, CSS, JS, PHP into 1 PHP file only, very useful for the construction of simple 1 file tools without conflict.
 
