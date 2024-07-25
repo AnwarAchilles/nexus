@@ -9,7 +9,7 @@ Nexus\Setup::base('DIR', __DIR__);
 // set environment partially.
 Nexus\Engine::env('/index.php', function() {
   // Re:Setup environment.
-  Nexus\Setup::env('TYPE', 'class');
+  Nexus\Setup::env('TYPE', 'class'); // @string class | plain
   // set source code.
   Nexus\Source::code('/src/index.head.html'); // specialy for head html
   Nexus\Source::code('/src/index.html');
@@ -42,6 +42,38 @@ Nexus\Engine::cli('start', function() {
     Nexus\Engine::cli('watch')->argument
   ]);
 });
+
+
+/* Nexus\Setup::env(?, ?)
+ *
+ * @string 
+ * class | plain
+ * env('TYPE', 'class');
+ * 
+ * @string 
+ * language
+ * env('HTML', 'id'); 
+ * 
+ * @boolean 
+ * true | false
+ * env('AUTORUN', true);
+ * 
+ * @boolean 
+ * true | false 
+ * env('ENCRYPTION', 'base64'); // @string 
+ * 
+ * @boolean 
+ * true | false
+ * env('JAVASCRIPT', 'text/javascript');
+ * 
+ * @array
+ * languages
+ * env('LANGUAGE', ['html', 'css', 'js', 'php']);
+ * 
+ * @array 
+ * languages
+ * env('MINIFIED', ['css', 'js', 'css', 'php']);
+ */
 
 // run nexus.
 Nexus\Engine::serve();
