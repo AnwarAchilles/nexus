@@ -58,12 +58,12 @@ Nexus\Engine::cli('start', function() {
  * true | false
  * env('AUTORUN', true);
  * 
- * @boolean 
- * true | false 
- * env('ENCRYPTION', 'base64'); // @string 
+ * @string
+ * base64 | gzip 
+ * env('ENCRYPTION', 'base64');
  * 
- * @boolean 
- * true | false
+ * @string
+ * text/javascript | module
  * env('JAVASCRIPT', 'text/javascript');
  * 
  * @array
