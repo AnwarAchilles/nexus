@@ -107,7 +107,6 @@ class Engine
               "",
               "# Command Helper",
               "php ".$_SERVER['PHP_SELF']." example",
-              "php ".$_SERVER['PHP_SELF']." documentation",
               "php ".$_SERVER['PHP_SELF']." upgrade",
             ]);
             return true;
