@@ -206,16 +206,20 @@ class Helper
   }
 
   public static function minifiedPhp($input) {
-    // Hapus komentar baris (//) dan komentar blok (/* ... */)
-    $input = preg_replace('/\/\/.*$/m', '', $input); // Hapus komentar baris
-    $input = preg_replace('/\/\*[\s\S]*?\*\//', '', $input); // Hapus komentar blok
+    // Hapus komentar baris (//) tanpa menghapus karakter lain di dalam string
+    $input = preg_replace('/(?<!:|\'|")\/\/[^\n]*/', '', $input);
 
-    // Hapus spasi dan tab yang tidak perlu, termasuk yang ada di baris kosong
-    $input = preg_replace('/\s+/', ' ', $input); // Hapus spasi berlebih
-    $input = preg_replace('/\s*\n\s*/', "\n", $input); // Hapus baris kosong
+    // Hapus komentar blok (/* ... */) dengan hati-hati
+    $input = preg_replace('/\/\*[\s\S]*?\*\//', '', $input);
 
-    // Hapus spasi di sekitar tanda kurung, kurung kurawal, dan titik koma
+    // Hapus spasi dan tab berlebih, tetapi biarkan spasi tunggal di antara kata-kata
+    $input = preg_replace('/\s+/', ' ', $input);
+
+    // Hapus spasi di sekitar tanda kurung, kurung kurawal, titik koma, dan koma
     $input = preg_replace('/\s*([\(\)\{\};,])\s*/', '$1', $input);
+
+    // Hapus baris kosong yang mungkin tersisa
+    $input = preg_replace('/\n\s*\n/', "\n", $input);
 
     // Hapus baris kosong di awal dan akhir
     $input = trim($input);
