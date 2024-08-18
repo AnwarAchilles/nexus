@@ -117,5 +117,7 @@ cd {YOUR_PROJECT_DIRECTORY}
 php nexus.php
 ```
 
+You can delete extension .php too most short.
+
 #
 [![DEVNEET-ID](https://ik.imagekit.io/anwarachilles/devneet-powered.svg?updatedAt=1704715329026)](https://github.com/devneet-id)

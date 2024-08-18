@@ -6,7 +6,7 @@ namespace Nexus;
 class Setup
 {
 
-  public static $version = '2.1.2';
+  public static $version = '2.1.3';
 
   public static $base = [
     'DIR'=> '',
@@ -91,12 +91,17 @@ class Setup
 
     // ENV SHORTHAND
     if (str_contains($call, 'env')) {
-      if (!is_array($param[0])) {
+      if (!is_array($param[1])) {
         $name = strtoupper(Helper::indexData($param, 0, ''));
         $data = Helper::indexData($param, 1, '');
         self::setConstruct($name, $data);
       }else {
-        foreach ($param[0] as $key=>$row) {
+        // self::setConstruct(
+        //   Helper::indexData($param, 0, ''), 
+        //   Helper::indexData($param, 1, [])
+        // );
+
+        foreach ($param[1] as $key=>$row) {
           $name = strtoupper($key);
           $data = $row;
           self::setConstruct($name, $data);
@@ -122,6 +127,7 @@ class Setup
       'JAVASCRIPT'=> 'text/javascript',
       'AUTORUN'=> true,
       'HTML'=> 'en',
+      'MINIFIED'=> [],
     ];
   }
 
