@@ -96,16 +96,10 @@ class Setup
         $data = Helper::indexData($param, 1, '');
         self::setConstruct($name, $data);
       }else {
-        // self::setConstruct(
-        //   Helper::indexData($param, 0, ''), 
-        //   Helper::indexData($param, 1, [])
-        // );
-
-        foreach ($param[1] as $key=>$row) {
-          $name = strtoupper($key);
-          $data = $row;
-          self::setConstruct($name, $data);
-        }
+        self::setConstruct(
+          Helper::indexData($param, 0, ''), 
+          Helper::indexData($param, 1, [])
+        );
       }
     }
   }
