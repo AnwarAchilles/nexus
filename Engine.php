@@ -249,7 +249,7 @@ class Engine
     $loading = 1;
 
     // Interval untuk pemeriksaan dalam detik
-    $interval = 3;
+    $interval = 1;
 
     while ($state) {
         $currentModifiedTime = Helper::isModified($targetPath);
